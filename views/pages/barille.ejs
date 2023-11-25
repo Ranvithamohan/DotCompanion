@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Braille Editor - DotCompanion</title>
+    <link rel="stylesheet" href="/styles/style.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <script src="https://kit.fontawesome.com/43c1b0f304.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Styles for the Text to Braille Converter */
+        .converter-container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Center vertically */
+        }
+
+        .buttonPrimary {
+            background-color: var(--primaryDark);
+            color: var(--white);
+            font-size: 16px;
+            padding: 8px 20px;
+            border-radius: 3.5px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: 200ms ease-in-out;
+        }
+
+        .input-container {
+            margin: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        /* Style for the button group */
+        .button-group {
+            display: flex;
+            gap: 10px; /* Adjust the gap as needed */
+        }
+
+        /* Style for the individual buttons in the group */
+        .button-group .buttonPrimary {
+            padding: 5px 10px;
+        }
+
+        .braille-output {
+            margin-top: 20px;
+            font-size: 36px; /* Increase font size for larger Braille dots */
+        }
+    </style>
+  
+</head>
+<body>
+    <header>
+        <%# Import nav %>
+        <%- include('../partials/nav') %>
+    </header>
+
+    <main class="converter-container">
+        <img src="/media/topItem.svg" class="topItemLarge" />
+        <img src="/media/ellipse.svg" class="ellipse" />
+
+        <h1>Braille to Text Converter</h1>
+        <div class="input-container">
+            <label for="braille-input">Enter Braille code:</label>
+            <input type="text" id="braille-input" placeholder="Enter Braille code">
+            <button id="convert-button" class="buttonPrimary" onclick="convertBraille()">Convert</button>
+        </div>
+        <div class="braille-output" id="braille-output"></div>
+
+        <div class="button-group">
+            <button id="copy-button" class="buttonPrimary">Copy</button>
+            <button id="share-button" class="buttonPrimary">Share</button>
+        </div>
+    </main>
+
+          <script>
+              function convertBraille() {
+                  const brailleInput = document.getElementById('braille-input').value;
+                  const textResult = brailleToText(brailleInput);
+                  document.getElementById('braille-output').textContent = `Text: ${textResult}`;
+              }
+
+              function brailleToText(braille) {
+                  const brailleMap = {
+                      "⠃": "a",
+                      "⠉": "b",
+                      "⠙": "c",
+                      "⠑": "d",
+                      "⠋": "e",
+                      "⠛": "f",
+                      "⠓": "g",
+                      "⠊": "h",
+                      "⠚": "i",
+                      "⠅": "j",
+                      "⠕": "k",
+                      "⠽": "l",
+                      "⠇": "m",
+                      "⠳": "n",
+                      "⠞": "o",
+                      "⠥": "p",
+                      "⠚": "q",
+                      "⠮": "r",
+                      "⠧": "s",
+                      "⠤": "t",
+                      "⠜": "u",
+                      "⠻": "v",
+                      "⠳": "w",
+                      "⠾": "x",
+                      "⠌": "y",
+                      "⠱": "z",
+                      // Add more mappings as needed
+                  };
+
+                  return braille.split(' ').map(code => brailleMap[code] || code).join('');
+              }
+          </script>
+
+
+    <footer>
+        <%- include('../partials/footer') %>
+    </footer>
+</body>
+</html>
